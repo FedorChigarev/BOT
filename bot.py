@@ -4,7 +4,6 @@ import asyncio
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
-from aiogram.filters import Command
 from datetime import datetime, timedelta
 
 # Загружаем переменные окружения
@@ -26,55 +25,55 @@ dp = Dispatcher()
 user_activity = {}
 
 # Запрещенные слова
-bad_words = ["мат1", "мат2", "мат3"]
+bad_words = ["хуй", "мат2", "мат3"]
 
 
 ### 📌 Стандартные команды ###
-@dp.message(Command("start"))
+@dp.message_handler(lambda message: "бот старт" in message.text.lower())
 async def cmd_start(message: Message):
     await message.answer("Привет! Я бот активности. Пиши мне и участвуй в рейтинге!")
 
 
-@dp.message(Command("бот_график_уборки"))
+@dp.message_handler(lambda message: "бот график уборки" in message.text.lower())
 async def cmd_schedule(message: Message):
     await message.answer("🧹 График уборки: Понедельник, Среда, Пятница в 9:00.")
 
 
-@dp.message(Command("бот_подрядчики"))
+@dp.message_handler(lambda message: "бот подрядчики" in message.text.lower())
 async def cmd_contractors(message: Message):
     await message.answer("👷 Список подрядчиков:\n1. Подрядчик 1\n2. Подрядчик 2\n3. Подрядчик 3")
 
 
-@dp.message(Command("бот_состав_тарифа"))
+@dp.message_handler(lambda message: "бот состав тарифа" in message.text.lower())
 async def cmd_tariff(message: Message):
     await message.answer("📊 Состав тарифа:\n1. Вода\n2. Электричество\n3. Уборка")
 
 
-@dp.message(Command("бот_горячие_телефоны"))
+@dp.message_handler(lambda message: "бот горячие телефоны" in message.text.lower())
 async def cmd_hotlines(message: Message):
     await message.answer("☎ Горячие телефоны:\n1. Пожарные — 101\n2. Полиция — 102\n3. МЧС — 112")
 
 
-@dp.message(Command("бот_аварийка"))
+@dp.message_handler(lambda message: "бот аварийка" in message.text.lower())
 async def cmd_emergency(message: Message):
     await message.answer("🚨 Аварийка: Телефон аварийной службы — 112.")
 
 
-@dp.message(Command("помощь"))
+@dp.message_handler(lambda message: "бот помощь" in message.text.lower())
 async def cmd_help(message: Message):
     await message.answer(
         "📌 Доступные команды:\n"
-        "/бот_график_уборки\n"
-        "/бот_подрядчики\n"
-        "/бот_состав_тарифа\n"
-        "/бот_горячие_телефоны\n"
-        "/бот_аварийка\n"
+        "бот график уборки\n"
+        "бот подрядчики\n"
+        "бот состав тарифа\n"
+        "бот горячие телефоны\n"
+        "бот аварийка\n"
         "\n💡 Или просто напишите 'бот, кто самый активный?'"
     )
 
 
 ### 📌 Отслеживание активности пользователей ###
-@dp.message()
+@dp.message_handler()
 async def track_activity(message: Message):
     user_id = message.from_user.id
     username = message.from_user.username or message.from_user.first_name
